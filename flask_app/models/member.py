@@ -18,15 +18,25 @@ class Members:
     def verify_member(member):
         is_valid = True
         if len(member['firstname'])< 2:
-            is_valid = False
             flash('Name must be more than 2 characters')
-        elif len(member['lastname'])< 2:
             is_valid = False
+        if len(member['lastname'])< 2:
             flash('Last Name must be more than 2 characters')
-        elif not EMAIL_REGEX.match(member['email']): 
+            is_valid = False
+        if not EMAIL_REGEX.match(member['email']): 
             flash("Invalid email address!")
             is_valid = False
-        elif member['password'] < 8:
+        if len(member['password']) < 8:
             flash('Password must be 8 at least characters long ')
             is_valid = False
         return is_valid
+    @classmethod
+    def get_by_email(cls,data):
+        query = "SELECT * FROM members WHERE email = %(email)s;"
+        result = connectToMySQL("accounts").query_db(query,data)
+        if len(result) < 1:
+            return False
+        return cls(result[0])
+    @classmethod
+    def get_specific(id):
+        pass
