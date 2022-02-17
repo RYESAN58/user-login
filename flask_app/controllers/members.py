@@ -16,9 +16,10 @@ def create():
     #HASHING INPUT PASSWORDS 1 AND 2 AND ASSIGNING THEM TO VARIABLES
     pw_hash = bcrypt.generate_password_hash(request.form['password'])
     print(pw_hash)
-    pw_hash2 = bcrypt.generate_password_hash(request.form['password2'])
-    print(pw_hash2)
-
+    #CHECKING IF PASSWORDS MATCH
+    if request.form['password'] != request.form['password2']:
+        flash('Both passwords must match')
+        return redirect('/')
     #CREATING DICTIONARY OF DATA FROM INPUT
     data = {
         'firstname' : request.form['firstname'],
@@ -26,13 +27,12 @@ def create():
         'email' : request.form['email'],
         'password': pw_hash
     }
-    #CHECKING IF PASSWORDS MATCH
-    #if pw_hash != pw_hash2:
-        #flash('Both passwords muct match')
-        #return redirect('/')
     #GETTING THE USER WHO'S EMAIL MATCHES THAT OF GIVEN FORM
     x = {'email':request.form['email']}
     print(x)
+    checker = Members.verify_email(x)
+    if checker == False:
+        return redirect('/')
     #CHECKING TO SEE IF ENTERED FORM MATERIAL PASSES VERIFICATION
     if not Members.verify_member(request.form):
         return redirect('/')

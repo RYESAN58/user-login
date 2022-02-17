@@ -13,7 +13,7 @@ class Members:
     @classmethod
     def save(cls, data):
         query = "INSERT INTO accounts.members (firstname, lastname, email, password) VALUES (%(firstname)s, %(lastname)s, %(email)s, %(password)s);"
-        return connectToMySQL('dojos_ninjas').query_db( query, data)
+        return connectToMySQL('accounts').query_db( query, data)
     @staticmethod
     def verify_member(member):
         is_valid = True
@@ -29,12 +29,6 @@ class Members:
         if len(member['password']) < 8:
             flash('Password must be 8 at least characters long ')
             is_valid = False
-        query = "SELECT * FROM members WHERE email = %(email)s;"
-        result = connectToMySQL("accounts").query_db(query,member)
-        print(query)
-        if len(result) < 1:
-            flash('Email already exsist choose different Email!')
-            is_valid - False
         return is_valid
     @classmethod
     def get_by_email(cls,data):
@@ -43,3 +37,13 @@ class Members:
         if len(result) < 1:
             return False
         return cls(result[0])
+    @classmethod
+    def verify_email(cls,data):
+        is_valid = True
+        query = 'SELECT * FROM members WHERE email = %(email)s;'
+        result = connectToMySQL("accounts").query_db(query,data)
+        print('THIS IS THE RESULTS',result)
+        if len(result)  != 0:
+            flash('This Email is already Taken')
+            is_valid = False
+        return is_valid
