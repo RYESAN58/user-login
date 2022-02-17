@@ -48,6 +48,13 @@
         </div>
         <div class="col">
             <h2 class="text-success">Login</h2>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="color: red; font-weight: bold;">{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <form method="POST" action="/login">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label" name = 'email'>Email address</label>

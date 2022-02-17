@@ -12,13 +12,16 @@ def index():
 def create():
     pw_hash = bcrypt.generate_password_hash(request.form['password'])
     print(pw_hash)
+    pw_hash2 = bcrypt.generate_password_hash(request.form['password2'])
     data = {
         'firstname' : request.form['firstname'],
         'lastname' : request.form['lastname'],
         'email' : request.form['email'],
-        'password': pw_hash,
-        'password2': pw_hash
+        'password': pw_hash
     }
+    if pw_hash != pw_hash2:
+        flash('Both passwords muct match')
+        return redirect('/')
     friends = Members.get_by_email(data)
     print(friends)
     if not Members.verify_member(request.form):
