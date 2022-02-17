@@ -15,7 +15,7 @@
     <div id=" container">
         <div class="col">
             <h2 class="text-primary">Register</h2>
-            {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages(category_filter=['register']) %}
                 {% if messages %}
                     {% for message in messages %}
                         <p style="color: red; font-weight: bold;">{{message}}</p>
@@ -48,7 +48,7 @@
         </div>
         <div class="col">
             <h2 class="text-success">Login</h2>
-            {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages(category_filter=['login']) %}
                 {% if messages %}
                     {% for message in messages %}
                         <p style="color: red; font-weight: bold;">{{message}}</p>

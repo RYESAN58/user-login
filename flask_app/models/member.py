@@ -18,16 +18,16 @@ class Members:
     def verify_member(member):
         is_valid = True
         if len(member['firstname'])< 2:
-            flash('Name must be more than 2 characters')
+            flash('Name must be more than 2 characters', "register")
             is_valid = False
         if len(member['lastname'])< 2:
-            flash('Last Name must be more than 2 characters')
+            flash('Last Name must be more than 2 characters', "register")
             is_valid = False
         if not EMAIL_REGEX.match(member['email']): 
             flash("Invalid email address!")
             is_valid = False
         if len(member['password']) < 8:
-            flash('Password must be 8 at least characters long ')
+            flash('Password must be 8 at least characters long ', "register")
             is_valid = False
         return is_valid
     @classmethod
@@ -44,6 +44,6 @@ class Members:
         result = connectToMySQL("accounts").query_db(query,data)
         print('THIS IS THE RESULTS',result)
         if len(result)  != 0:
-            flash('This Email is already Taken')
+            flash('This Email is already Taken', 'login')
             is_valid = False
         return is_valid

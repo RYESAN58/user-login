@@ -18,7 +18,7 @@ def create():
     print(pw_hash)
     #CHECKING IF PASSWORDS MATCH
     if request.form['password'] != request.form['password2']:
-        flash('Both passwords must match')
+        flash('Both passwords must match', 'register')
         return redirect('/')
     #CREATING DICTIONARY OF DATA FROM INPUT
     data = {
@@ -48,11 +48,11 @@ def login():
     data = { "email" : request.form["email"] }
     user_in_db = Members.get_by_email(data)
     if not user_in_db:
-        flash("Invalid Email/Password")
+        flash("Invalid Email/Password", 'login')
         return redirect("/")
     #CHECKING TO SEE IF PASSWORD MATCHES THE ONE IN THE DATABASE
     if not bcrypt.check_password_hash(user_in_db.password, request.form['password']):
-        flash("Invalid Email/Password")
+        flash("Invalid Email/Password", 'login')
         return redirect('/')
     #CREATING SESSION INFO FOR USER'S LOGIN
     session['user_id'] = user_in_db.id
