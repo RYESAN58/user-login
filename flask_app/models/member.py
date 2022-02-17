@@ -29,6 +29,12 @@ class Members:
         if len(member['password']) < 8:
             flash('Password must be 8 at least characters long ')
             is_valid = False
+        query = "SELECT * FROM members WHERE email = %(email)s;"
+        result = connectToMySQL("accounts").query_db(query,member)
+        print(query)
+        if len(result) < 1:
+            flash('Email already exsist choose different Email!')
+            is_valid - False
         return is_valid
     @classmethod
     def get_by_email(cls,data):
@@ -37,6 +43,3 @@ class Members:
         if len(result) < 1:
             return False
         return cls(result[0])
-    @classmethod
-    def get_specific(id):
-        pass
